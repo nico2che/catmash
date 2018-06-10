@@ -7,6 +7,7 @@ import createSagaMiddleware from 'redux-saga';
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import { PersistGate } from 'redux-persist/integration/react'
+import { createLogger } from 'redux-logger';
 
 import reducers from './reducers';
 import sagas from './sagas';
@@ -21,9 +22,13 @@ const persistConfig = {
   storage,
 }
 
+const logger = createLogger({
+  collapsed: true,
+});
 
 const store = createStore(
   persistReducer(persistConfig, reducers),
+  applyMiddleware(sagaMiddleware, logger),
 );
 
 sagaMiddleware.run(sagas);
