@@ -3,8 +3,10 @@ import ReactDOM from 'react-dom';
 
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-
 import createSagaMiddleware from 'redux-saga';
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
+import { PersistGate } from 'redux-persist/integration/react'
 
 import reducers from './reducers';
 import sagas from './sagas';
@@ -14,16 +16,25 @@ import './index.css';
 
 const sagaMiddleware = createSagaMiddleware();
 
+const persistConfig = {
+  key: 'root',
+  storage,
+}
+
+
 const store = createStore(
-  reducers,
-  applyMiddleware(sagaMiddleware),
+  persistReducer(persistConfig, reducers),
 );
 
 sagaMiddleware.run(sagas);
 
+const persistor = persistStore(store);
+
 ReactDOM.render(
   <Provider store={store}>
-    <Router />
+    <PersistGate loading={null} persistor={persistor}>
+      <Router />
+    </PersistGate>
   </Provider>,
   document.getElementById('root')
 );
