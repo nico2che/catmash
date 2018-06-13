@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { Container, Flex, Logo, Footer } from './styles';
+import * as catActions from 'actions/cat.action';
 import Cat from './Cat';
 
 const votes = [];
 
-class Vote extends Component {
+class VoteComponent extends Component {
+  constructor(props) {
+    super(props);
+    this.props.getAllCat();
+  }
+
   render() {
     return (
       <Container>
@@ -23,5 +30,20 @@ class Vote extends Component {
     )
   }
 }
+
+const mapStateToProps = (state) => ({
+  state: {
+    error: state.cat.error,
+  }
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  getAllCat: () => dispatch(catActions.getCat())
+})
+
+const Vote = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(VoteComponent);
 
 export default Vote;
