@@ -19,6 +19,14 @@ class VoteComponent extends Component {
     this.props.getAllScore();
   }
 
+  getScoreLength = () => {
+    const votes = this.props.state.score.scores;
+    if (!votes) {
+      return 0;
+    }
+    return Object.keys(votes).reduce((length, voteId) => length + votes[voteId].count, 0);
+  }
+
   getCats = () => {
     const { cats } = this.props.state.cat;
     if (!cats) {
@@ -67,7 +75,7 @@ class VoteComponent extends Component {
         </Flex>
         <Footer>
           <p><Link to="/score">Voir les plus beaux chats</Link></p>
-          <p>{ votes.length } votes</p>
+          <p>{ this.getScoreLength() / 2 } votes</p>
         </Footer>
       </Container>
     )
