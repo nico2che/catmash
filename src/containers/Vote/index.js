@@ -8,8 +8,6 @@ import * as scoreActions from 'actions/score.action';
 import { Container, Flex, Logo, Footer } from './styles';
 import Cat from './Cat';
 
-const votes = [];
-
 const INITIAL_SCORE = { score: 1000, count: 0 };
 
 class VoteComponent extends Component {
@@ -93,7 +91,7 @@ const mapDispatchToProps = (dispatch) => ({
   getAllCat: () => dispatch(catActions.getCat()),
   getAllScore: () => dispatch(scoreActions.getScore()),
   vote: (catWinner, catLoser) => dispatch(scoreActions.updateScore({ catWinner, catLoser })),
-})
+});
 
 const Vote = connect(
   mapStateToProps,

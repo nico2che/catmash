@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 
-import { Content, Img, Round } from './styles';
+import { Content, Img } from './styles';
 
 class CatComponent extends Component {
   render() {
     return (
       <Content style={{ backgroundColor: this.props.color }}>
-        <Round onClick={this.props.onVote}>
-          { this.props.cat ? (<Img src={ this.props.cat.url } />) : null }
-        </Round>
+        { this.props.cat ? (<Img onClick={this.props.onVote} src={ this.props.cat.url } />) : null }
       </Content>
     )
   }

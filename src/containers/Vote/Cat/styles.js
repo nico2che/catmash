@@ -9,14 +9,12 @@ const Content = styled.div`
   width: 100%;
 `;
 
-const Round = styled.div`
+const Img = styled.img`
+  max-width: 70%;
+  max-height: 70%;
   overflow: hidden;
   border: 20px #fff solid;
   cursor: pointer;
 `;
 
-const Img = styled.img`
-  width: 200px;
-`;
-
-export { Content, Img, Round };
+export { Content, Img };

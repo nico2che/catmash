@@ -38,7 +38,6 @@ class ScoreComponent extends Component {
 
   render() {
     const cats = this.getSortedCats();
-    console.log(cats)
     return (
       <Container>
         <Logo>CAT MASH</Logo>
