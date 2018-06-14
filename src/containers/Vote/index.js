@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 
 import * as catActions from 'actions/cat.action';
 import * as scoreActions from 'actions/score.action';
-
 import { Container, Flex, Logo, Footer } from './styles';
 import Cat from './Cat';
 
@@ -13,8 +12,8 @@ const INITIAL_SCORE = { score: 1000, count: 0 };
 class VoteComponent extends Component {
   constructor(props) {
     super(props);
-    this.props.getAllCat();
-    this.props.getAllScore();
+    props.getAllCat();
+    props.getAllScore();
   }
 
   getScoreLength = () => {
@@ -30,7 +29,7 @@ class VoteComponent extends Component {
     if (!cats) {
       return {};
     }
-    return{
+    return {
       catLeft: cats[Math.floor(Math.random() * cats.length)],
       catRight: cats[Math.floor(Math.random() * cats.length)],
     };
@@ -52,28 +51,35 @@ class VoteComponent extends Component {
     const { winner, loser } = this.scoreCalculation(scoreWinner.score, scoreLoser.score);
     this.props.vote(
       { ...catWinner, score: winner, count: scoreWinner.count + 1 },
-      { ...catLoser, score: loser, count: scoreLoser.count + 1 },
+      { ...catLoser, score: loser, count: scoreLoser.count || 0 },
     );
   }
 
   render() {
+    const loading = this.props.state.cat.loading || this.props.state.score.loading;
     const { catLeft, catRight } = this.getCats();
     return (
       <Container>
         <Logo>CAT MASH</Logo>
-        <Flex>
-          <Cat
-            onVote={() => this.vote(catLeft, catRight)}
-            cat={catLeft}
-            color="#ecf0f1" />
-          <Cat
-            onVote={() => this.vote(catRight, catLeft)}
-            cat={catRight}
-            color="#f7f7f7" />
-        </Flex>
+        {
+          loading ? (
+            <div>Chargement...</div>
+          ) : (
+            <Flex>
+              <Cat
+                onVote={() => this.vote(catLeft, catRight)}
+                cat={catLeft}
+                color="#ecf0f1" />
+              <Cat
+                onVote={() => this.vote(catRight, catLeft)}
+                cat={catRight}
+                color="#f7f7f7" />
+            </Flex>
+          )
+        }
         <Footer>
           <p><Link to="/score">Voir les plus beaux chats</Link></p>
-          <p>{ this.getScoreLength() / 2 } votes</p>
+          <p>{ this.getScoreLength() } votes</p>
         </Footer>
       </Container>
     )
