@@ -11,10 +11,10 @@ export function getScore() {
   }
 }
 
-export function getScoreSuccess({ cats }) {
+export function getScoreSuccess({ scores }) {
   return {
     type: GET_SCORE_SUCCESS,
-    cats,
+    scores,
   }
 }
 

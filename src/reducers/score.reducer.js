@@ -8,6 +8,7 @@ const initialState = {
 
 const scoreReducer = function(state = initialState, action) {
   switch(action.type) {
+    case scoreActions.GET_SCORE:
     case scoreActions.UPDATE_SCORE:
       return {
         ...state,
@@ -21,9 +22,17 @@ const scoreReducer = function(state = initialState, action) {
         scores: {
           ...state.scores,
           [catWinner.id]: { score: catWinner.score, count: catWinner.count },
-          [catLoser.id]: { score: catLoser.score, count: catLoser.count },
+          [catLoser.id]: { ...catLoser, score: catLoser.score },
         },
       };
+    case scoreActions.GET_SCORE_SUCCESS:
+      const { scores } = action;
+      return {
+        ...state,
+        loading: false,
+        scores,
+      };
+    case scoreActions.GET_SCORE_FAILURE:
     case scoreActions.UPDATE_SCORE_FAILURE:
     const { error } = action;
       return {
