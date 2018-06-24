@@ -15,20 +15,24 @@ import Router from './router';
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
 
+const middlewares = [];
 const sagaMiddleware = createSagaMiddleware();
+middlewares.push(sagaMiddleware);
 
 const persistConfig = {
   key: 'root',
   storage,
 }
 
-const logger = createLogger({
-  collapsed: true,
-});
+if (process.env.NODE_ENV === 'development') {
+  middlewares.push(createLogger({
+    collapsed: true,
+  }));
+}
 
 const store = createStore(
   persistReducer(persistConfig, reducers),
-  applyMiddleware(sagaMiddleware, logger),
+  applyMiddleware(...middlewares),
 );
 
 sagaMiddleware.run(sagas);
