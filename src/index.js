@@ -4,9 +4,9 @@ import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
-import { persistStore, persistReducer } from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
-import { PersistGate } from 'redux-persist/integration/react'
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import { PersistGate } from 'redux-persist/integration/react';
 import { createLogger } from 'redux-logger';
 
 import reducers from './reducers';
@@ -22,7 +22,7 @@ middlewares.push(sagaMiddleware);
 const persistConfig = {
   key: 'root',
   storage,
-}
+};
 
 if (process.env.NODE_ENV === 'development') {
   middlewares.push(createLogger({
@@ -45,6 +45,6 @@ ReactDOM.render(
       <Router />
     </PersistGate>
   </Provider>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );
 registerServiceWorker();

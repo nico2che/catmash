@@ -1,15 +1,21 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import { Content, Img } from './styles';
 
-class CatComponent extends Component {
-  render() {
-    return (
-      <Content style={{ backgroundColor: this.props.color }}>
-        { this.props.cat ? (<Img onClick={this.props.onVote} src={ this.props.cat.url } />) : null }
-      </Content>
-    )
-  }
+function CatComponent(props) {
+  const { color, cat, onVote } = props;
+  return (
+    <Content style={{ backgroundColor: color }}>
+      { cat ? (<Img onClick={onVote} src={cat.url} />) : null }
+    </Content>
+  );
 }
+
+CatComponent.propTypes = {
+  color: PropTypes.string.isRequired,
+  cat: PropTypes.objectOf.isRequired,
+  onVote: PropTypes.func.isRequired,
+};
 
 export default CatComponent;

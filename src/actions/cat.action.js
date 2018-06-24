@@ -4,20 +4,20 @@ export const GET_CAT_FAILURE = 'GET_CAT_FAILURE';
 
 export function getCat() {
   return {
-    type: GET_CAT
-  }
+    type: GET_CAT,
+  };
 }
 
 export function getCatSuccess({ cats }) {
   return {
     type: GET_CAT_SUCCESS,
-    cats
-  }
+    cats,
+  };
 }
 
 export function getCatFailure({ error }) {
   return {
     type: GET_CAT_FAILURE,
-    error
-  }
+    error,
+  };
 }

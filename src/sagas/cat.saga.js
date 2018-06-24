@@ -3,7 +3,7 @@ import { call, put } from 'redux-saga/effects';
 import * as catActions from 'actions/cat.action';
 import catApi from 'services/cat.api';
 
-function * getAllCat() {
+function* getAllCat() {
   try {
     const response = yield call(catApi.getAll);
     const cats = response.data.images;
@@ -13,4 +13,4 @@ function * getAllCat() {
   }
 }
 
-export { getAllCat }
+export default getAllCat;

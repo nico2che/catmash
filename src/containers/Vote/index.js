@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -12,12 +13,13 @@ const INITIAL_SCORE = { score: 1000, count: 0 };
 class VoteComponent extends Component {
   constructor(props) {
     super(props);
-    props.getAllCat();
-    props.getAllScore();
+    const { getAllCats, getAllScores } = this.props;
+    getAllCats();
+    getAllScores();
   }
 
   getScoreLength = () => {
-    const votes = this.props.state.score.scores;
+    const { score: { votes } } = this.props;
     if (!votes) {
       return 0;
     }
@@ -25,7 +27,7 @@ class VoteComponent extends Component {
   }
 
   getCats = () => {
-    const { cats } = this.props.state.cat;
+    const { cat: { cats } } = this.props;
     if (!cats) {
       return {};
     }
@@ -37,7 +39,7 @@ class VoteComponent extends Component {
 
   scoreCalculation = (scoreWinner, scoreLoser) => {
     const difference = Math.abs(scoreWinner - scoreLoser);
-    const pD = 1 / (1 + 10 ** (-difference / 400));
+    const pD = 1 / (1 + (10 ** (-difference / 400)));
     return {
       winner: scoreWinner + 10 * (1 - pD),
       loser: scoreLoser + 10 * (0 - pD),
@@ -45,18 +47,19 @@ class VoteComponent extends Component {
   }
 
   vote = (catWinner, catLoser) => {
-    const { scores } = this.props.state.score;
+    const { score: { scores }, vote } = this.props;
     const scoreWinner = scores[catWinner.id] || INITIAL_SCORE;
     const scoreLoser = scores[catLoser.id] || INITIAL_SCORE;
     const { winner, loser } = this.scoreCalculation(scoreWinner.score, scoreLoser.score);
-    this.props.vote(
+    vote(
       { ...catWinner, score: winner, count: scoreWinner.count + 1 },
       { ...catLoser, score: loser, count: scoreLoser.count || 0 },
     );
   }
 
   render() {
-    const loading = this.props.state.cat.loading || this.props.state.score.loading;
+    const { cat, score } = this.props;
+    const loading = cat.loading || score.loading;
     const { catLeft, catRight } = this.getCats();
     return (
       <Container>
@@ -69,11 +72,13 @@ class VoteComponent extends Component {
               <Cat
                 onVote={() => this.vote(catLeft, catRight)}
                 cat={catLeft}
-                color="#ecf0f1" />
+                color="#ecf0f1"
+              />
               <Cat
                 onVote={() => this.vote(catRight, catLeft)}
                 cat={catRight}
-                color="#f7f7f7" />
+                color="#f7f7f7"
+              />
             </Flex>
           )
         }
@@ -82,20 +87,26 @@ class VoteComponent extends Component {
           <p>{ this.getScoreLength() } votes</p>
         </Footer>
       </Container>
-    )
+    );
   }
 }
 
-const mapStateToProps = (state) => ({
-  state: {
-    cat: state.cat,
-    score: state.score,
-  }
+VoteComponent.propTypes = {
+  cat: PropTypes.objectOf.isRequired,
+  score: PropTypes.objectOf.isRequired,
+  getAllCats: PropTypes.func.isRequired,
+  getAllScores: PropTypes.func.isRequired,
+  vote: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = state => ({
+  cat: state.cat,
+  score: state.score,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  getAllCat: () => dispatch(catActions.getCat()),
-  getAllScore: () => dispatch(scoreActions.getScore()),
+const mapDispatchToProps = dispatch => ({
+  getAllCats: () => dispatch(catActions.getCat()),
+  getAllScores: () => dispatch(scoreActions.getScore()),
   vote: (catWinner, catLoser) => dispatch(scoreActions.updateScore({ catWinner, catLoser })),
 });
 

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -7,23 +8,23 @@ import * as scoreActions from 'actions/score.action';
 
 import { Container, Best, Logo, ImgContainer, Rank, Img, Other, RankOther, ImgOther } from './styles';
 
-const rankColors = ['gold', 'silver', '#cd7f32']
+const rankColors = ['gold', 'silver', '#cd7f32'];
 
 class ScoreComponent extends Component {
   constructor(props) {
     super(props);
-    this.props.getAllCats();
-    this.props.getAllScores();
+    const { getAllCats, getAllScores } = this.props;
+    getAllCats();
+    getAllScores();
   }
 
   getSortedCats = () => {
-    const cats = this.props.state.cats;
-    const scores = this.props.state.scores;
+    const { cats, scores } = this.props;
     if (!cats || !scores) {
       return {};
     }
     return cats
-      .map((cat) => ({
+      .map(cat => ({
         ...cat,
         ...(scores[cat.id] && { score: scores[cat.id].score }),
       }))
@@ -63,21 +64,26 @@ class ScoreComponent extends Component {
           }
         </Other>
       </Container>
-    )
+    );
   }
 }
 
-const mapStateToProps = (state) => ({
-  state: {
-    cats: state.cat.cats,
-    scores: state.score.scores,
-  }
+ScoreComponent.propTypes = {
+  cats: PropTypes.arrayOf.isRequired,
+  scores: PropTypes.arrayOf.isRequired,
+  getAllCats: PropTypes.func.isRequired,
+  getAllScores: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = state => ({
+  cats: state.cat.cats,
+  scores: state.score.scores,
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   getAllCats: () => dispatch(catActions.getCat()),
   getAllScores: () => dispatch(scoreActions.getScore()),
-})
+});
 
 const Score = connect(
   mapStateToProps,

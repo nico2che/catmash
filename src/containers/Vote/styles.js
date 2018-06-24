@@ -41,4 +41,6 @@ const Footer = styled.div`
   height: 55px;
 `;
 
-export { Container, Flex, Logo, Footer };
+export {
+  Container, Flex, Logo, Footer,
+};

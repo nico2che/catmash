@@ -8,21 +8,21 @@ export const UPDATE_SCORE_FAILURE = 'UPDATE_SCORE_FAILURE';
 export function getScore() {
   return {
     type: GET_SCORE,
-  }
+  };
 }
 
 export function getScoreSuccess({ scores }) {
   return {
     type: GET_SCORE_SUCCESS,
     scores,
-  }
+  };
 }
 
 export function getScoreFailure({ error }) {
   return {
     type: GET_SCORE_FAILURE,
     error,
-  }
+  };
 }
 
 export function updateScore({ catWinner, catLoser }) {
@@ -30,7 +30,7 @@ export function updateScore({ catWinner, catLoser }) {
     type: UPDATE_SCORE,
     catWinner,
     catLoser,
-  }
+  };
 }
 
 export function updateScoreSuccess({ catWinner, catLoser }) {
@@ -38,12 +38,12 @@ export function updateScoreSuccess({ catWinner, catLoser }) {
     type: UPDATE_SCORE_SUCCESS,
     catWinner,
     catLoser,
-  }
+  };
 }
 
 export function updateScoreFailure({ error }) {
   return {
     type: UPDATE_SCORE_FAILURE,
     error,
-  }
+  };
 }

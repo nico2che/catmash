@@ -1,10 +1,9 @@
 import { put } from 'redux-saga/effects';
 
+import * as scoreActions from 'actions/score.action';
 import firebase from '../firebase';
 
-import * as scoreActions from 'actions/score.action';
-
-function * getAllScore() {
+function* getAllScore() {
   try {
     const scores = yield firebase.database().ref('/cats').once('value');
     yield put(scoreActions.getScoreSuccess({ scores: scores.val() }));
@@ -13,9 +12,9 @@ function * getAllScore() {
   }
 }
 
-function * updateScore({ catWinner, catLoser }) {
+function* updateScore({ catWinner, catLoser }) {
   try {
-    const payload = {}
+    const payload = {};
     payload[catWinner.id] = { score: catWinner.score, count: catWinner.count };
     payload[catLoser.id] = { ...catLoser, score: catLoser.score };
     firebase.database().ref('/cats/').update(payload);
@@ -25,4 +24,4 @@ function * updateScore({ catWinner, catLoser }) {
   }
 }
 
-export { getAllScore, updateScore }
+export { getAllScore, updateScore };
