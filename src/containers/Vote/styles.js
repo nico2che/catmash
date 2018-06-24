@@ -10,6 +10,8 @@ const Container = styled.div`
 
 const Logo = styled.div`
   position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
   top: 30px;
   font-size: 40px;
   color: #496174;
@@ -24,6 +26,8 @@ const Flex = styled.div`
 
 const Footer = styled.div`
   position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0%);
   bottom: 0;
   border: #ecf0f1 solid 10px;
   border-bottom: none;
