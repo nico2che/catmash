@@ -1,6 +1,10 @@
-## CatMash
+# CatMash
 
 A React.js application for _L'Atelier_
+
+Available at [https://nico2che.github.io/catmash/](https://nico2che.github.io/catmash/)
+
+## Setup
 
 ### Firebase
 
@@ -10,8 +14,14 @@ A React.js application for _L'Atelier_
 
 ### Run
 
-- npm start
+- `npm i`
+- `npm start`
 
 ### Test
 
-- npm test
+- `npm test`
+
+### ESLint check & fix
+
+- `npm run lint`
+- `npm run lint:fix`
